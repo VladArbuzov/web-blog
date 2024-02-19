@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}User Profile {{ user.username }}{% endblock %}
+
+{% block content_title %}User Profile {{ user.username }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h2>{{ user.username }}</h2>
+                <p>Email: {{ user.email }}</p>
+                <!-- Добавьте другие поля профиля, если они есть -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

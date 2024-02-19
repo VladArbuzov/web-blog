@@ -1,0 +1,62 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content_title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ post.title }}</h3>
+                        <div class="item">
+                            <div class="text left">
+                                <p class="card-text">{{ post.description }}</p>
+                                <p class="card-text">Author: {{ post.author }}</p>
+                                <p class="card-text">Date: {{ post.date }}</p>
+                            </div>
+                            <div class="cl"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="projects">
+                    {% if user.username == post.author %}
+                        <a href="{% url 'edit_post' pk=post.pk %}">Edit Post</a>
+                    {% endif %}
+                </div>
+                {% if user.is_authenticated %}
+                    <div class="form-comment mt-4">
+                        <h3>Leave a comment</h3>
+                        <form action="{% url 'comments_add' post.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="text_comments">Your comment</label>
+                                <input type="text" class="form-control" name="text_comments" required>
+                            </div>
+                            <input type="hidden" name="name" value="{{ user.username }}">
+                            <input type="hidden" name="email" value="{{ user.email }}">
+                            <button type="submit" class="btn btn-primary">Add comment</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <p class="mt-4">To add a comment, please <a href="{% url 'login' %}">login</a>.</p>
+                {% endif %}
+
+                <div class="mt-4">
+                    {% for comment in post.comments_set.all %}
+                        <div class="card mt-2">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="{% url 'profile' comment.name%}">{{ comment.name }}</a>
+                                </h5>
+                                <p class="card-text">{{ comment.text_comments }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

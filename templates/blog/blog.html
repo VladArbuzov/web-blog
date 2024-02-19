@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+
+{% block content_title %}Home page{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            {% for post in post_list %}
+                <div class="col-lg-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.short_text }}...</p>
+                            <a href="{% url 'post-detail' post.id %}" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
